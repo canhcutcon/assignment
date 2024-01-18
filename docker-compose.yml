@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./technical-assign-server/mongodb-data:/data/db
+
+  technical-assign-server:
+    build:
+      context: ./technical-assign-server
+    ports:
+      - "3011:3011"
+    depends_on:
+      - mongodb
+    environment:
+      - NODE_ENV=development
+
+  technical-assign-client:
+    build:
+      context: ./technical-assign-client
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
